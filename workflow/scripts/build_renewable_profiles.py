@@ -68,11 +68,11 @@ under water.
     ===================  ==========  =========================================================
     Field                Dimensions  Description
     ===================  ==========  =========================================================
-    profile              bus, time   the per unit hourly availability factors for each node
+    profile              bus, time   the per unit hourly availability factors for each bus
     -------------------  ----------  ---------------------------------------------------------
-    weight               bus         sum of the layout weighting for each node
+    weight               bus         sum of the layout weighting for each bus
     -------------------  ----------  ---------------------------------------------------------
-    p_nom_max            bus         maximal installable capacity at the node (in MW)
+    p_nom_max            bus         maximal installable capacity at the bus (in MW)
     -------------------  ----------  ---------------------------------------------------------
     potential            y, x        layout of generator units at cutout grid cells inside the
                                      Voronoi cell (maximal installable capacity at each grid
@@ -149,7 +149,7 @@ node (`p_nom_max`): `simple` and `conservative`:
   overestimate production since it is assumed the geographical distribution is
   proportional to capacity factor.
 
-- `conservative` assertains the nodal limit by increasing capacities
+- `conservative` ascertains the nodal limit by increasing capacities
   proportional to the layout until the limit of an individual grid cell is
   reached.
 """
@@ -158,7 +158,6 @@ node (`p_nom_max`): `simple` and `conservative`:
 import functools
 import logging
 import time
-
 import atlite
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -198,10 +197,10 @@ if __name__ == "__main__":
         snakemake = mock_snakemake(
             "build_renewable_profiles",
             technology="solar",
-            interconnect="texas",
+            interconnect="western",
         )
     configure_logging(snakemake)
-
+    
     nprocesses = int(snakemake.threads)
     noprogress = snakemake.config["run"].get("disable_progressbar", True)
     noprogress = noprogress or not snakemake.config["atlite"]["show_progress"]
@@ -319,7 +318,7 @@ if __name__ == "__main__":
     start = time.time()
 
     kwargs = dict(nprocesses=nprocesses, disable_progressbar=noprogress)
-    availability = cutout.availabilitymatrix(regions, excluder, **kwargs)
+    availability = cutout.availabilitymatrix(regions, excluder, **kwargs) # xarray of available 
 
     duration = time.time() - start
     logger.info(f"Completed landuse availability calculation ({duration:2.2f}s)")

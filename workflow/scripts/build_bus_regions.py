@@ -19,8 +19,8 @@ Creates Voronoi shapes for each bus representing both onshore and offshore regio
 
 **Outputs**
 
-- ``resources/regions_onshore.geojson``
-- ``resources/regions_offshore.geojson``
+- ``resources/Default/western/Geospatial/regions_onshore.geojson``
+- ``resources/Default/western/Geospatial/regions_offshore.geojson``
 """
 
 
